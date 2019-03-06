@@ -1,0 +1,3 @@
+ansible==2.7.8
+molecule==2.19.0
+testinfra==1.16.0

@@ -1,0 +1,9 @@
+---
+- name: Install Git, Nginx, Docker, and Flask-app
+  hosts: all
+
+  roles:
+    - git
+    - nginx
+    - docker
+    - flask-app
