@@ -3,17 +3,21 @@
 
 - name: Install nginx
   apt: name=nginx state=present
+  become: true
   register: nginx
 
 - name: Remove default nginx config
   file: name=/etc/nginx/sites-enabled/default state=absent
+  become: true
 
 - name: Install system nginx config
   template:
     src: templates/nginx.conf
     dest: /etc/nginx/nginx.conf
+  become: true
 
 - name: Restart nginx
   service: name=nginx state=restarted
   when: nginx is success
+  become: true
   changed_when: false
