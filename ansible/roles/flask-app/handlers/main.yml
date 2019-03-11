@@ -1,0 +1,12 @@
+---
+# handlers file for flask-app
+- name: run app
+  command: make run
+  args:
+    chdir: /usr/src/app/terraform-packer-ansible-demo/apps/flask-app
+  changed_when: false
+  become: true
+
+- name: restart nginx
+  service: "name=nginx state=restarted"
+  become: true

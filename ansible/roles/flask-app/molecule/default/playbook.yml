@@ -1,0 +1,9 @@
+---
+- import_playbook: ../../../git/molecule/default/playbook.yml
+- import_playbook: ../../../nginx/molecule/default/playbook.yml
+- import_playbook: ../../../docker/molecule/default/playbook.yml
+
+- name: Converge
+  hosts: all
+  roles:
+    - flask-app

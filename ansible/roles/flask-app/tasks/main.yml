@@ -1,0 +1,37 @@
+---
+# tasks file for flask-app
+- name: Clone terraform-packer-ansible-demo
+  git:
+    repo: https://github.com/finixbit/terraform-packer-ansible-demo.git
+    dest: /usr/src/app/terraform-packer-ansible-demo
+    version: master
+  become: true
+  register: repo
+
+- name: Install make
+  apt: name=build-essential state=present
+  become: true
+  register: make
+
+- name: Build flask-app Image
+  command: make build
+  args:
+    chdir: /usr/src/app/terraform-packer-ansible-demo/apps/flask-app
+  when: repo is success and make is success
+  changed_when: false
+  become: true
+  notify: run app
+
+- name: Copy flask-app nginx configuration to sites-available
+  template:
+    src: templates/flask-app.conf.j2
+    dest: /etc/nginx/sites-available/flask-app.conf
+  become: true
+
+- name: Create sites-enabled symlink for nginx flask-app port 80 configuration
+  file:
+    src: /etc/nginx/sites-available/flask-app.conf
+    dest: /etc/nginx/sites-enabled/flask-app.conf
+    state: link
+  become: true
+  notify: restart nginx

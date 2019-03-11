@@ -1,0 +1,37 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+
+lint:
+  name: yamllint
+
+platforms:
+  - name: vagrant-ubuntu
+    box: ubuntu/bionic64
+    memory: 1024
+    cpus: 1
+    provider_raw_config_args:
+      - "customize ['modifyvm', :id, '--cpuexecutioncap', '50', '--uartmode1', 'disconnected']"
+
+provisioner:
+  name: ansible
+  log: true
+  options:
+    vvv: true
+  lint:
+    name: ansible-lint
+  playbooks:
+    prepare: prepare.yml
+
+scenario:
+  name: default
+
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
