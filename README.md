@@ -90,3 +90,18 @@ curl http://localhost/
 molecule destroy
 ```
 
+#### Packer-Image
+Build and configure aws ami image with packer and ansible and store the configured image. This allows consistency in the case of launching multiple instances of the application server. 
+
+##### Setup Requirements
+1. [Packer](https://www.packer.io/) - Builds images of a configured server, but doesn't actually deploy it
+
+###### Build and configure ami image
+```bash
+cd terraform-packer-ansible-demo/packer
+
+export AWS_ACCESS_KEY_ID="AWS ACCESS KEY ID HERE"
+export AWS_SECRET_ACCESS_KEY="AWS SECRET ACCESS HERE"
+
+path/to/packer build template.json
+```
