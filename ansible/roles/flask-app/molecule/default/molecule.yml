@@ -17,6 +17,9 @@ platforms:
     cpus: 1
     provider_raw_config_args:
       - "customize ['modifyvm', :id, '--cpuexecutioncap', '50', '--uartmode1', 'disconnected']"
+    instance_raw_config_args:
+      - "vm.network 'forwarded_port', guest: 8000, host: 8000"
+      - "vm.network 'forwarded_port', guest: 80, host: 80"
 
 provisioner:
   name: ansible

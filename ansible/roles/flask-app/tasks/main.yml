@@ -20,7 +20,6 @@
   when: repo is success and make is success
   changed_when: false
   become: true
-  notify: run app
 
 - name: Copy flask-app nginx configuration to sites-available
   template:
