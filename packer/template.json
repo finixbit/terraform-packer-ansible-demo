@@ -1,0 +1,62 @@
+{
+	"description": "build and configure ami image from ubuntu with ansible, docker, nginx, flask-app",
+
+	"variables": {
+		"aws_access_key": "{{ env `AWS_ACCESS_KEY_ID` }}",
+    	"aws_secret_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
+    	"aws_region": "us-east-2"
+	},
+
+	"builders": [
+		{
+			"type": "amazon-ebs",
+	      	"access_key": "{{ user `aws_access_key` }}",
+	      	"secret_key": "{{ user `aws_secret_key` }}",
+	      	"region": "{{ user `aws_region` }}",
+	      	"instance_type": "t2.micro",
+      		"ssh_username": "ubuntu",
+	      	"ami_name": "packer-mpharma-ubuntu {{timestamp}}",
+	      	"source_ami_filter": {
+		    	"filters": {
+		      		"virtualization-type": "hvm",
+		      		"name": "ubuntu/images/*ubuntu-xenial-16.04-amd64-server-*",
+		      		"root-device-type": "ebs"
+		    	},
+		    	"owners": ["099720109477"],
+		    	"most_recent": true
+		  	},
+	      	"launch_block_device_mappings": [{
+      			"device_name": "/dev/sda1",
+      			"volume_size": 8,
+      			"volume_type": "gp2",
+      			"delete_on_termination": true
+    		}]
+		}
+	],
+
+	"provisioners": [
+		{
+			"type": "shell",
+			"script": "scripts/bootstrap.sh"
+		},
+		{
+			"type": "shell",
+			"script": "scripts/ansible.sh"
+		},
+    	{
+      		"type": "ansible-local",
+      		"playbook_file": "../ansible/app.yml",
+      		"role_paths": [
+      			"../ansible/roles/git",
+	        	"../ansible/roles/docker",
+	        	"../ansible/roles/nginx",
+	        	"../ansible/roles/flask-app"
+	      	],
+      		"group_vars": "../ansible/group_vars"
+    	},
+    	{
+      		"type": "shell",
+      		"script": "scripts/cleanup.sh"
+    	}
+	]
+}
