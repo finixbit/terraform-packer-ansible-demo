@@ -19,10 +19,26 @@ Deploying a simple flask application using Terraform, Packer and Ansible.
 ## Usage
 Before running this setup, terraform and packer should be installed.
 
-##### Clone source code
 ```bash
 git clone https://github.com/finixbit/terraform-packer-ansible-demo.git
 cd terraform-packer-ansible-demo
+
+export AWS_ACCESS_KEY_ID="AWS ACCESS KEY ID HERE"
+export AWS_SECRET_ACCESS_KEY="AWS SECRET ACCESS HERE"
+export AWS_DEFAULT_REGION="AWS REGION HERE"
+
+cd packer/
+packer build template.json
+
+cd ../terraform/
+terraform init
+terraform plan -var 'ami=AMI_ID_FROM_PACKER_HERE'
+terraform apply -var 'ami=AMI_ID_FROM_PACKER_HERE'
+
+terraform output public_ip
+curl http://<public_ip>
+
+
 ```
 
 ## Design / Project structure
