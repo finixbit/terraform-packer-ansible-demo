@@ -7,7 +7,7 @@ build:
 	docker build -t $(IMAGE_NAME) .
 
 run:
-	docker start $(CONTAINER_NAME) || docker run --rm -d -p 8000:8000 --name $(CONTAINER_NAME) -e "FLASK_ENV=production" $(IMAGE_NAME) 
+	docker start $(CONTAINER_NAME) || docker run --restart=always --rm -d -p 8000:8000 --name $(CONTAINER_NAME) -e "FLASK_ENV=production" $(IMAGE_NAME) 
 
 dev:
 	docker run --rm -p 8000:8000 --name $(CONTAINER_NAME) -e "FLASK_ENV=development" -v $(shell pwd):/usr/src/app $(IMAGE_NAME)
