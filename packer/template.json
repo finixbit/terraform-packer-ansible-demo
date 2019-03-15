@@ -15,7 +15,7 @@
             "region": "{{ user `aws_region` }}",
             "instance_type": "t2.micro",
             "ssh_username": "ubuntu",
-            "ami_name": "packer-mpharma-ubuntu {{timestamp}}",
+            "ami_name": "packer-ubuntu {{timestamp}}",
             "source_ami_filter": {
                 "filters": {
                       "virtualization-type": "hvm",
