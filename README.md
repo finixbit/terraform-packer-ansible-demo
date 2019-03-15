@@ -102,6 +102,7 @@ cd terraform-packer-ansible-demo/packer
 
 export AWS_ACCESS_KEY_ID="AWS ACCESS KEY ID HERE"
 export AWS_SECRET_ACCESS_KEY="AWS SECRET ACCESS HERE"
+export AWS_REGION = "AWS REGION HERE"
 
 path/to/packer build template.json
 ```
