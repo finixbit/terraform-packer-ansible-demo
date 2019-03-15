@@ -92,6 +92,7 @@ molecule destroy
 
 #### Packer-Image
 Build and configure aws ami image with packer and ansible and store the configured image. This allows consistency in the case of launching multiple instances of the application server. 
+Note: copy ami created by packer to be used for terraform.
 
 ##### Setup Requirements
 1. [Packer](https://www.packer.io/) - Builds images of a configured server, but doesn't actually deploy it
@@ -102,7 +103,36 @@ cd terraform-packer-ansible-demo/packer
 
 export AWS_ACCESS_KEY_ID="AWS ACCESS KEY ID HERE"
 export AWS_SECRET_ACCESS_KEY="AWS SECRET ACCESS HERE"
-export AWS_REGION = "AWS REGION HERE"
+export AWS_DEFAULT_REGION="AWS REGION HERE"
 
-path/to/packer build template.json
+packer build template.json
+```
+
+#### Terraform
+Deploy servers using ami image created from packer on aws infrastructure. 
+
+##### Setup Requirements
+1. [Terraform](https://www.terraform.io/) - Handles deploying an actual server
+
+###### Build and deploy 
+```bash
+cd terraform-packer-ansible-demo/terraform
+
+terraform init
+
+export AWS_ACCESS_KEY_ID="AWS ACCESS KEY ID HERE"
+export AWS_SECRET_ACCESS_KEY="AWS SECRET ACCESS KEY HERE"
+export AWS_DEFAULT_REGION="AWS REGION HERE"
+
+terraform plan -var 'ami=AMI_ID_FROM_PACKER_HERE'
+terraform apply -var 'ami=AMI_ID_FROM_PACKER_HERE'
+
+terraform output public_ip
+curl http://<public_ip>
+```
+
+###### Cleanup and shutdown
+```bash
+
+terraform destroy
 ```
