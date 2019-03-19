@@ -68,7 +68,7 @@ Ansible roles to configure server. See below for more details on how to setup,ru
 ##### Setup Requirements
 1. [Docker](https://www.docker.com/) - Build, test, and deploy applications quickly. 
 2. [Vagrant](https://vagrantup.com) - Create and configure lightweight, reproducible, and portable development environments. 
-3. [Molecule](https://molecule.readthedocs.io/en/) - Development and testing of Ansible roles
+3. [Molecule](https://molecule.readthedocs.io/en/latest/) - Development and testing of Ansible roles
 
 ##### Testing Roles Prerequisites
 1. `brew install ansible`
